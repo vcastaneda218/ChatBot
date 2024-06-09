@@ -41,7 +41,14 @@ namespace ChatBotWS.Controllers
                 chatlstMessage.NumeroEmisor = item.NumeroEmisor;
                 chatlstMessage.FechaHora = item.FechaHora;
                 chatlstMessage.MensajeId = item.MensajeId;
-      
+
+                var contact = tstcontxt.Contactos.Where(x => x.Numero == item.NumeroEmisor).FirstOrDefault();
+                if (contact != null)
+                {
+
+                    chatlstMessage.NombreContacto = contact.Nombre;
+                }
+
 
                 var lastmessage= tstcontxt.Mensajes.Where(x => x.NumeroEmisor == item.NumeroEmisor).OrderByDescending(s => s.FechaHora).FirstOrDefault();
                if (String.IsNullOrEmpty(lastmessage.Respuesta))
@@ -63,10 +70,16 @@ namespace ChatBotWS.Controllers
         [Route("api/[controller]/GetChatListByNumber/{numeroEmisor?}")]
         [EnableCors("AllowAny")]
         [HttpGet]
-        public ActionResult<List<Mensaje>> GetChatListByNumber(string numeroEmisor)
+        public ActionResult<GetChatListByNumber> GetChatListByNumber(string numeroEmisor)
         {
+            var MessageListByNumber = new GetChatListByNumber();
+
+            
+           
             var messagelist = tstcontxt.Mensajes.Where(x => x.NumeroEmisor == numeroEmisor).OrderBy(s => s.FechaHora).ToList();
-            return messagelist;
+            MessageListByNumber.Mensajes = messagelist;
+
+            return MessageListByNumber;
         }
 
 
@@ -187,6 +200,7 @@ namespace ChatBotWS.Controllers
                 Newmsj.Mensaje1 = "";
                 Newmsj.Respuesta = message.message;
                 Newmsj.FechaHora = DateTime.Now;
+
 
                 tstcontxt.Mensajes.Add(Newmsj);
                 tstcontxt.SaveChanges();
