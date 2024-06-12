@@ -18,4 +18,6 @@ public class Contacto
     public DateTime FechaCreacion { get; set; }
 
     public bool Activo { get; set; }
+
+    public bool? Chatbot { get; set; }
 }

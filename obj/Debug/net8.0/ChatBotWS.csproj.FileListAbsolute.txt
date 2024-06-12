@@ -504,6 +504,7 @@ C:\Users\vicoc\source\repos\ChatBot\obj\Debug\net8.0\ChatBotWS.AssemblyInfo.cs
 C:\Users\vicoc\source\repos\ChatBot\obj\Debug\net8.0\ChatBotWS.csproj.CoreCompileInputs.cache
 C:\Users\vicoc\source\repos\ChatBot\obj\Debug\net8.0\ChatBotWS.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\vicoc\source\repos\ChatBot\obj\Debug\net8.0\ChatBotWS.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\vicoc\source\repos\ChatBot\obj\Debug\net8.0\ChatBotWS.sourcelink.json
 C:\Users\vicoc\source\repos\ChatBot\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\vicoc\source\repos\ChatBot\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\vicoc\source\repos\ChatBot\obj\Debug\net8.0\staticwebassets\msbuild.ChatBotWS.Microsoft.AspNetCore.StaticWebAssets.props

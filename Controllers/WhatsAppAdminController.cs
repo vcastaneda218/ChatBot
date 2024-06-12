@@ -74,7 +74,14 @@ namespace ChatBotWS.Controllers
         {
             var MessageListByNumber = new GetChatListByNumber();
 
-            
+
+            var Contacto = tstcontxt.Contactos.Where(x => x.Numero == numeroEmisor).FirstOrDefault();
+
+            if(Contacto != null)
+            {
+                MessageListByNumber.NombreContacto = Contacto.Nombre;
+                MessageListByNumber.Chatbot = Contacto.Chatbot;
+            }
            
             var messagelist = tstcontxt.Mensajes.Where(x => x.NumeroEmisor == numeroEmisor).OrderBy(s => s.FechaHora).ToList();
             MessageListByNumber.Mensajes = messagelist;
