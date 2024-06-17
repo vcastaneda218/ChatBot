@@ -126,7 +126,14 @@ namespace ChatBotWS.Controllers
 
             try
             {
-                contacto.Favorito = true;
+                if(contacto.Favorito == true)
+                {
+                    contacto.Favorito = false;
+                }
+                else
+                {
+                    contacto.Favorito = true;
+                }
                 await tstcontxt.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -247,7 +254,21 @@ namespace ChatBotWS.Controllers
 
         }
 
-        
+        [Route("api/[controller]/AddContacto")]
+        [EnableCors("AllowAny")]
+        [HttpPost]
+        public async Task<ActionResult<Contacto>> AddContacto([FromBody] Contacto contacto)
+        {
+
+            contacto.Etiqueta = "Asignado";
+            contacto.Chatbot = false;
+            tstcontxt.Contactos.Add(contacto);
+            await tstcontxt.SaveChangesAsync();
+
+            return CreatedAtAction("GetContacto", new { id = contacto.ContactoId }, contacto);
+        }
+
+
         [Route("api/[controller]/GetHostName")]
         [EnableCors("AllowAny")]
         [HttpGet]

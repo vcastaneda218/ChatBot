@@ -2,6 +2,7 @@
 using ChatBotWS.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using NuGet.Common;
@@ -168,8 +169,7 @@ namespace ChatBotWS.Controllers
                     if (!String.IsNullOrEmpty(entry.entry[0].changes[0].value.messages[0].from))
                         telefono_wa = entry.entry[0].changes[0].value.messages[0].from;
 
-                    if (telefono_wa == "5218125058899")
-                        telefono_wa = "528125058899";
+                   
 
                     ////INICIALIZAMOS EL BOT DE RIVESCRIPT<  bn
                     //var bot = new RiveScript.RiveScript(true);
@@ -178,17 +178,47 @@ namespace ChatBotWS.Controllers
                     //bot.sortReplies();
                     ////OBTENEMOS LA RESPUESTA DEPENDIENDO DEL MENSAJE RECIBIDO
                     //respuesta = bot.reply("local-user", mensaje_recibido);
+                    
                     Mensaje Newmsj = new Mensaje();
                     Newmsj.NumeroEmisor = telefono_wa;
                     Newmsj.WaId = id_wa;
                     Newmsj.NumeroReceptor = "8124282594";
                     Newmsj.Mensaje1 = mensaje_recibido;
-                    Newmsj.Respuesta = respuesta;
                     Newmsj.FechaHora = DateTime.Now;
+
+
+                    var contact = tstcontxt.Contactos.FirstOrDefaultAsync(x => x.Numero == telefono_wa).Result;
+
+                    if (contact != null)
+                    {
+                        
+                        if (contact.Chatbot == true)
+                        {
+                            Newmsj.Respuesta = respuesta;
+                        }
+                        else
+                        {
+                            Newmsj.Respuesta = "";
+                        }
+                    }
+                    else
+                    {
+                        Newmsj.Respuesta = "";
+                    }
 
                     tstcontxt.Mensajes.Add(Newmsj);
                     tstcontxt.SaveChanges();
-                    enviacontrol.Envia(telefono_wa, respuesta);
+                    if (contact != null)
+                    {
+                        if (contact.Chatbot == true)
+                        {
+                            enviacontrol.Envia(telefono_wa, respuesta);
+                        }
+                    }
+                    else
+                    {
+                        enviacontrol.Envia(telefono_wa, respuesta);
+                    }
 
                     var response = new HttpResponseMessage(HttpStatusCode.OK);
                     response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
