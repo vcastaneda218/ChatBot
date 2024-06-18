@@ -1,4 +1,7 @@
-﻿using ChatBotWS.Data;
+﻿using Azure.Identity;
+using Azure.Storage;
+using Azure.Storage.Blobs;
+using ChatBotWS.Data;
 using ChatBotWS.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -113,6 +116,7 @@ namespace ChatBotWS.Controllers
                                     var ImgResponse = JsonConvert.DeserializeObject<GetImageInfo>(JSON);
                                     var ImageUrl = ImgResponse.url;
                                     var FileName = AppDomain.CurrentDomain.BaseDirectory + "/Images/" + imgid + ".jpg";
+                                   
 
                                     using (HttpClient clientimg = new HttpClient())
                                     {
@@ -121,12 +125,35 @@ namespace ChatBotWS.Controllers
                                         using (var s = await clientimg.GetStreamAsync(ImageUrl))
                                         {
 
-                                            File.WriteAllText("C:/Users/vicoc/source/repos/ChatBotWS/Images/test.txt", "Test");
+                                            //var blobClient = new BlobClient(
+                                            //     new Uri("https://navicol.file.core.windows.net/navicol/37i9dQZF1DZ06evO16ogSI-default(1).jpg"),
+                                            //     new StorageSharedKeyCredential("navicol", "ImSpjxBqP3P5Ka6qXlUz8/5oBka+kx/x+vOgm5k9eBot4OjyVG6WPsBEa8R5/WC6lsjeSltzqIQX+ASt/J8vbA==")
+                                            //    );
 
-                                            using (FileStream outputFileStream = new FileStream(FileName, FileMode.CreateNew))
-                                            {
-                                                await s.CopyToAsync(outputFileStream);
-                                            }
+                                            //var test = await blobClient.DownloadContentAsync();
+
+
+                                            var blobServiceClient = new BlobServiceClient(
+                                            new Uri("https://navicol.blob.core.windows.net"),
+                                            new StorageSharedKeyCredential("navicol",
+                                            "7GfdRduKrEz3nHU+zdqu/61Mgw6XMiB8Y6XQXnml7bCe+f9B4PCGro/miM0Q1xrs1mPMex89JBZR+AStOrD9Pw==")
+                                            );
+
+                                            var containerClient = blobServiceClient.GetBlobContainerClient("wsimages");
+
+                                            var blobClient = containerClient.GetBlobClient(imgid + ".jpg");
+
+
+                                            var res = await blobClient.UploadAsync(s, overwrite: true);
+
+                                            //File.WriteAllText("C:/Users/vicoc/source/repos/ChatBotWS/Images/test.txt", "Test");
+
+                                            //using (FileStream outputFileStream = new FileStream(FileName, FileMode.CreateNew))
+                                            //{
+                                            //    await s.CopyToAsync(outputFileStream);
+
+
+                                            //}
                                             //// Get the object used to communicate with the server.
                                             //FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://216.225.195.85");
                                             //request.Method = WebRequestMethods.Ftp.UploadFile;

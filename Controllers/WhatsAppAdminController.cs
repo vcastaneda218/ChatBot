@@ -1,4 +1,6 @@
-﻿using ChatBotWS.Data;
+﻿using Azure.Storage.Blobs;
+using Azure.Storage;
+using ChatBotWS.Data;
 using ChatBotWS.Models;
 using ChatBotWS.Models.WhatsAppAdmin;
 using Grpc.Core;
@@ -13,6 +15,7 @@ using System.Net.Http.Headers;
 using System.Numerics;
 using System.Text;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -274,10 +277,10 @@ namespace ChatBotWS.Controllers
         [HttpGet]
         public ActionResult<string> GetHostName()
         {
-            
-            return Ok(AppDomain.CurrentDomain.BaseDirectory + "/Images/");
-        }
 
+
+            return Ok(AppDomain.CurrentDomain.BaseDirectory);
+        }
 
     }
 }
