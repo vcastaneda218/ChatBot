@@ -184,25 +184,6 @@ namespace ChatBotWS.Controllers
 
 
                                             }
-                                            //// Get the object used to communicate with the server.
-                                            //FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://216.225.195.85");
-                                            //request.Method = WebRequestMethods.Ftp.UploadFile;
-
-                                            //// This example assumes the FTP site uses anonymous logon.
-                                            //request.Credentials = new NetworkCredential("mctechnologies.onlin_caf26q6m0gd", "Hugoca13@");
-
-                                            //// Copy the contents of the file to the request stream.
-
-                                            //    using (Stream requestStream = request.GetRequestStream())
-                                            //    {
-                                            //        await s.CopyToAsync(requestStream);
-                                            //        using (FtpWebResponse ftpresponse = (FtpWebResponse)request.GetResponse())
-                                            //        {
-                                            //            Console.WriteLine($"Upload File Complete, status {ftpresponse.StatusDescription}");
-                                            //        }
-                                            //    }
-
-
                                         }
                                     }
 
@@ -273,12 +254,12 @@ namespace ChatBotWS.Controllers
                     {
                         if (contact.Chatbot == true)
                         {
-                            enviacontrol.Envia(telefono_wa, respuesta);
+                            await enviacontrol.Envia(telefono_wa, respuesta);
                         }
                     }
                     else
                     {
-                        enviacontrol.Envia(telefono_wa, respuesta);
+                        await enviacontrol.Envia(telefono_wa, respuesta);
                     }
 
                     var response = new HttpResponseMessage(HttpStatusCode.OK);

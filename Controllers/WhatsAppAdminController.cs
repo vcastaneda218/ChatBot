@@ -1,6 +1,4 @@
-﻿using Azure.Storage.Blobs;
-using Azure.Storage;
-using ChatBotWS.Data;
+﻿using ChatBotWS.Data;
 using ChatBotWS.Models;
 using ChatBotWS.Models.WhatsAppAdmin;
 using Grpc.Core;
