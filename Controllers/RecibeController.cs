@@ -4,6 +4,7 @@ using Azure.Storage.Blobs;
 using ChatBotWS.Data;
 using ChatBotWS.Models;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http.Timeouts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -57,6 +58,8 @@ namespace ChatBotWS.Controllers
             string id_wa = "";
             string telefono_wa = "";
             string respuesta = "";
+            string tipo = "";
+            Mensaje Newmsj = new Mensaje();
 
 
             if (entry.entry.Count() > 0)
@@ -105,6 +108,8 @@ namespace ChatBotWS.Controllers
                     {
                         if(entry.entry[0].changes[0].value.messages[0].type == "image")
                         {
+
+
                             using (HttpClient client = new HttpClient())
                             {
                                 var imgid = entry.entry[0].changes[0].value.messages[0].image.id;
@@ -133,6 +138,33 @@ namespace ChatBotWS.Controllers
                                             //var test = await blobClient.DownloadContentAsync();
 
 
+
+                                            //EXTRAEMOS EL ID UNICO DEL MENSAJE
+                                            if (!String.IsNullOrEmpty(entry.entry[0].changes[0].value.messages[0].id))
+                                                id_wa = entry.entry[0].changes[0].value.messages[0].id;
+
+                                            //ESTRAEMOS EL NUMERO DE TELEFONO DEL CUAL RECIBIMOS EL MENSAJE
+                                            if (!String.IsNullOrEmpty(entry.entry[0].changes[0].value.messages[0].from))
+                                                telefono_wa = entry.entry[0].changes[0].value.messages[0].from;
+
+                                            if (!String.IsNullOrEmpty(entry.entry[0].changes[0].value.messages[0].type))
+                                            {
+                                                tipo = entry.entry[0].changes[0].value.messages[0].type;
+                                            }
+
+                                            Newmsj.NumeroEmisor = telefono_wa;
+                                            Newmsj.WaId = id_wa;
+                                            Newmsj.NumeroReceptor = "8124282594";
+                                            Newmsj.Mensaje1 = imgid + ".jpg";
+                                            Newmsj.Respuesta = "";
+                                            Newmsj.FechaHora = DateTime.Now;
+                                            Newmsj.Tipo = tipo;
+
+                                            tstcontxt.Mensajes.Add(Newmsj);
+                                            var resSave = await tstcontxt.SaveChangesAsync();
+
+
+
                                             var blobServiceClient = new BlobServiceClient(
                                             new Uri("https://navicol.blob.core.windows.net"),
                                             new StorageSharedKeyCredential("navicol",
@@ -140,20 +172,18 @@ namespace ChatBotWS.Controllers
                                             );
 
                                             var containerClient = blobServiceClient.GetBlobContainerClient("wsimages");
-
                                             var blobClient = containerClient.GetBlobClient(imgid + ".jpg");
+                                            var resUpl = await blobClient.UploadAsync(s, overwrite: true);
 
-
-                                            var res = await blobClient.UploadAsync(s, overwrite: true);
 
                                             //File.WriteAllText("C:/Users/vicoc/source/repos/ChatBotWS/Images/test.txt", "Test");
 
-                                            //using (FileStream outputFileStream = new FileStream(FileName, FileMode.CreateNew))
-                                            //{
-                                            //    await s.CopyToAsync(outputFileStream);
+                                            using (FileStream outputFileStream = new FileStream("c:/" + FileName, FileMode.CreateNew))
+                                            {
+                                                await s.CopyToAsync(outputFileStream);
 
 
-                                            //}
+                                            }
                                             //// Get the object used to communicate with the server.
                                             //FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://216.225.195.85");
                                             //request.Method = WebRequestMethods.Ftp.UploadFile;
@@ -196,23 +226,27 @@ namespace ChatBotWS.Controllers
                     if (!String.IsNullOrEmpty(entry.entry[0].changes[0].value.messages[0].from))
                         telefono_wa = entry.entry[0].changes[0].value.messages[0].from;
 
-                   
+                    if (!String.IsNullOrEmpty(entry.entry[0].changes[0].value.messages[0].type))
+                    {
+                        tipo = entry.entry[0].changes[0].value.messages[0].type;
+                    }
 
-                    ////INICIALIZAMOS EL BOT DE RIVESCRIPT<  bn
-                    //var bot = new RiveScript.RiveScript(true);
-                    ////CARGAMOS EL ARCHIVO DONDE ESTA LA CONFIGURACION DE LA IA
-                    //bot.loadFile("negocio.rive");
-                    //bot.sortReplies();
-                    ////OBTENEMOS LA RESPUESTA DEPENDIENDO DEL MENSAJE RECIBIDO
-                    //respuesta = bot.reply("local-user", mensaje_recibido);
-                    
-                    Mensaje Newmsj = new Mensaje();
+
+
+                        ////INICIALIZAMOS EL BOT DE RIVESCRIPT<  bn
+                        //var bot = new RiveScript.RiveScript(true);
+                        ////CARGAMOS EL ARCHIVO DONDE ESTA LA CONFIGURACION DE LA IA
+                        //bot.loadFile("negocio.rive");
+                        //bot.sortReplies();
+                        ////OBTENEMOS LA RESPUESTA DEPENDIENDO DEL MENSAJE RECIBIDO
+                        //respuesta = bot.reply("local-user", mensaje_recibido);
+
                     Newmsj.NumeroEmisor = telefono_wa;
                     Newmsj.WaId = id_wa;
                     Newmsj.NumeroReceptor = "8124282594";
                     Newmsj.Mensaje1 = mensaje_recibido;
                     Newmsj.FechaHora = DateTime.Now;
-
+                    Newmsj.Tipo = tipo;
 
                     var contact = tstcontxt.Contactos.FirstOrDefaultAsync(x => x.Numero == telefono_wa).Result;
 
@@ -230,7 +264,7 @@ namespace ChatBotWS.Controllers
                     }
                     else
                     {
-                        Newmsj.Respuesta = "";
+                        Newmsj.Respuesta = respuesta;
                     }
 
                     tstcontxt.Mensajes.Add(Newmsj);

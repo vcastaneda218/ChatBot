@@ -2,7 +2,6 @@
 {
     public class Envia
     {
-
         public string messaging_product { get; set; }
         public string to { get; set; }
         public string type { get; set; }
@@ -10,7 +9,7 @@
 
     }
 
-   public class Text
+    public class Text
     {
         public string body { get; set; }
     }
@@ -22,7 +21,6 @@
         public string sha256 { get; set; }
         public string id { get; set; }
         public string messaging_product { get; set; }
-
     }
 
 }

@@ -18,4 +18,6 @@ public partial class Mensaje
     public string Respuesta { get; set; } = null!;
 
     public DateTime FechaHora { get; set; }
+
+    public string Tipo { get; set; } = null!;
 }
