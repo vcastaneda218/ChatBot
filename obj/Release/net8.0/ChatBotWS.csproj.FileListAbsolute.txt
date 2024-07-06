@@ -519,3 +519,7 @@ C:\Users\vicoc\source\repos\ChatBot\obj\Release\net8.0\refint\ChatBotWS.dll
 C:\Users\vicoc\source\repos\ChatBot\obj\Release\net8.0\ChatBotWS.pdb
 C:\Users\vicoc\source\repos\ChatBot\obj\Release\net8.0\ChatBotWS.genruntimeconfig.cache
 C:\Users\vicoc\source\repos\ChatBot\obj\Release\net8.0\ref\ChatBotWS.dll
+C:\Users\vicoc\source\repos\ChatBot\bin\Release\net8.0\Azure.Storage.Blobs.dll
+C:\Users\vicoc\source\repos\ChatBot\bin\Release\net8.0\Azure.Storage.Common.dll
+C:\Users\vicoc\source\repos\ChatBot\bin\Release\net8.0\System.ClientModel.dll
+C:\Users\vicoc\source\repos\ChatBot\bin\Release\net8.0\System.IO.Hashing.dll

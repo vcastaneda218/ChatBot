@@ -192,6 +192,14 @@ namespace ChatBotWS.Controllers
             return await tstcontxt.Contactos.Where(x => x.Activo == true).OrderBy(s => s.FechaCreacion).ToListAsync();
         }
 
+        [Route("api/[controller]/GetContactoById/{numero?}")]
+        [EnableCors("AllowAny")]
+        [HttpGet]
+        public async Task<ActionResult<Contacto>> GetContactoById(string numero)
+        {
+            return await tstcontxt.Contactos.Where(x => x.Numero == numero && x.Activo == true).FirstAsync();
+        }
+
 
         //GetListFavoritos 
         [Route("api/[controller]/GetFavoritos")]

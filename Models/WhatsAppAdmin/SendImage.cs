@@ -4,6 +4,6 @@
     {
         public string number { get; set; } = string.Empty;
 
-        public FormFile file { get; set; } 
+        public FormFile? file { get; set; } 
     }
 }
