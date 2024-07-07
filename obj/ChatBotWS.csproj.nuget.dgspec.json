@@ -75,6 +75,10 @@
               "target": "Package",
               "version": "[13.0.3, )"
             },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
             "Rivescript.CSharp": {
               "target": "Package",
               "version": "[0.1.4, )"

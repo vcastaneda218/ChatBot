@@ -523,3 +523,5 @@ C:\Users\vicoc\source\repos\ChatBot\bin\Release\net8.0\Azure.Storage.Blobs.dll
 C:\Users\vicoc\source\repos\ChatBot\bin\Release\net8.0\Azure.Storage.Common.dll
 C:\Users\vicoc\source\repos\ChatBot\bin\Release\net8.0\System.ClientModel.dll
 C:\Users\vicoc\source\repos\ChatBot\bin\Release\net8.0\System.IO.Hashing.dll
+C:\Users\vicoc\source\repos\ChatBot\bin\Release\net8.0\MySqlConnector.dll
+C:\Users\vicoc\source\repos\ChatBot\bin\Release\net8.0\Pomelo.EntityFrameworkCore.MySql.dll

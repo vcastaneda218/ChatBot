@@ -234,7 +234,7 @@ namespace ChatBotWS.Controllers
                     if (contact != null)
                     {
                         
-                        if (contact.Chatbot == true)
+                        if (contact.Chatbot == 1)
                         {
                             Newmsj.Respuesta = respuesta;
                         }
@@ -252,7 +252,7 @@ namespace ChatBotWS.Controllers
                     tstcontxt.SaveChanges();
                     if (contact != null)
                     {
-                        if (contact.Chatbot == true)
+                        if (contact.Chatbot == 1)
                         {
                             await enviacontrol.Envia(telefono_wa, respuesta);
                         }

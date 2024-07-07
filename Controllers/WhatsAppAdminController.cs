@@ -46,7 +46,7 @@ namespace ChatBotWS.Controllers
                 chatlstMessage.FechaHora = item.FechaHora;
                 chatlstMessage.MensajeId = item.MensajeId;
 
-                var contact = tstcontxt.Contactos.Where(x => x.Numero == item.NumeroEmisor && x.Activo == true).FirstOrDefault();
+                var contact = tstcontxt.Contactos.Where(x => x.Numero == item.NumeroEmisor && x.Activo == 1).FirstOrDefault();
                 if (contact != null)
                 {
 
@@ -79,12 +79,12 @@ namespace ChatBotWS.Controllers
             var MessageListByNumber = new GetChatListByNumber();
 
 
-            var Contacto = tstcontxt.Contactos.Where(x => x.Numero == numeroEmisor && x.Activo == true).FirstOrDefault();
+            var Contacto = tstcontxt.Contactos.Where(x => x.Numero == numeroEmisor && x.Activo == 1).FirstOrDefault();
 
             if(Contacto != null)
             {
                 MessageListByNumber.NombreContacto = Contacto.Nombre;
-                MessageListByNumber.Chatbot = Contacto.Chatbot;
+                MessageListByNumber.Chatbot = Convert.ToBoolean(Contacto.Chatbot);
             }
            
             var messagelist = tstcontxt.Mensajes.Where(x => x.NumeroEmisor == numeroEmisor).OrderBy(s => s.FechaHora).ToList();
@@ -102,7 +102,7 @@ namespace ChatBotWS.Controllers
         {
             tstcontxt.Contactos.Add(contacto);
             contacto.FechaCreacion = DateTime.Now;
-            contacto.Activo = true;
+            contacto.Activo = 1;
             await tstcontxt.SaveChangesAsync();
 
             return Ok(contacto.ContactoId);
@@ -119,7 +119,7 @@ namespace ChatBotWS.Controllers
                 return BadRequest();
             }
 
-            var contacto = await tstcontxt.Contactos.FirstOrDefaultAsync(x => x.Numero == numero && x.Activo == true);
+            var contacto = await tstcontxt.Contactos.FirstOrDefaultAsync(x => x.Numero == numero && x.Activo == 1);
 
             if (contacto == null)
             {
@@ -130,13 +130,13 @@ namespace ChatBotWS.Controllers
 
             try
             {
-                if(contacto.Favorito == true)
+                if(contacto.Favorito == 1)
                 {
-                    contacto.Favorito = false;
+                    contacto.Favorito = 1;
                 }
                 else
                 {
-                    contacto.Favorito = true;
+                    contacto.Favorito = 1;
                 }
                 await tstcontxt.SaveChangesAsync();
             }
@@ -160,7 +160,7 @@ namespace ChatBotWS.Controllers
                 return BadRequest();
             }
 
-            var contacto = await tstcontxt.Contactos.FirstOrDefaultAsync(x => x.Numero == numero && x.Activo == true);
+            var contacto = await tstcontxt.Contactos.FirstOrDefaultAsync(x => x.Numero == numero && x.Activo == 1);
 
             if (contacto == null)
             {
@@ -189,7 +189,7 @@ namespace ChatBotWS.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Contacto>>> GetContactos()
         {
-            return await tstcontxt.Contactos.Where(x => x.Activo == true).OrderBy(s => s.FechaCreacion).ToListAsync();
+            return await tstcontxt.Contactos.Where(x => x.Activo == 1).OrderBy(s => s.FechaCreacion).ToListAsync();
         }
 
         [Route("api/[controller]/GetContactoById/{numero?}")]
@@ -197,7 +197,7 @@ namespace ChatBotWS.Controllers
         [HttpGet]
         public async Task<ActionResult<Contacto>> GetContactoById(string numero)
         {
-            return await tstcontxt.Contactos.Where(x => x.Numero == numero && x.Activo == true).FirstAsync();
+            return await tstcontxt.Contactos.Where(x => x.Numero == numero && x.Activo == 1).FirstAsync();
         }
 
 
@@ -207,7 +207,7 @@ namespace ChatBotWS.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Contacto>>> GetFavoritos()
         {
-            return await tstcontxt.Contactos.Where(x => x.Activo == true && x.Favorito == true).OrderBy(s => s.FechaCreacion).ToListAsync();
+            return await tstcontxt.Contactos.Where(x => x.Activo == 1 && x.Favorito == 1).OrderBy(s => s.FechaCreacion).ToListAsync();
         }
 
         [Route("api/[controller]/EnviarMensajeTexto")]
@@ -351,7 +351,7 @@ namespace ChatBotWS.Controllers
         {
 
             contacto.Etiqueta = "Asignado";
-            contacto.Chatbot = false;
+            contacto.Chatbot = 0;
             tstcontxt.Contactos.Add(contacto);
             await tstcontxt.SaveChangesAsync();
 

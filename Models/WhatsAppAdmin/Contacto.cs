@@ -11,13 +11,13 @@ public class Contacto
 
     public string Nombre { get; set; } = null!;
 
-    public bool Favorito { get; set; }
+    public sbyte Favorito { get; set; }
 
     public string Etiqueta { get; set; } = null!;
 
+    public sbyte Chatbot { get; set; }
+
     public DateTime FechaCreacion { get; set; }
 
-    public bool Activo { get; set; }
-
-    public bool? Chatbot { get; set; }
+    public sbyte Activo { get; set; }
 }
