@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Globalization;
 using System.Net;
 using System;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -270,7 +271,7 @@ namespace ChatBotWS.Controllers
         [Route("api/[controller]/EnviarMensajeImg")]
         [EnableCors("AllowAny")]
         [HttpPost]
-        public async Task<ActionResult> EnviarImg([FromForm]IFormFile file,[FromForm]string number)
+        public async Task<ActionResult> EnviarMensajeImg([FromForm]IFormFile file,[FromForm]string number)
         {
             
             var imgid = number + "-" + DateTime.Now.ToString("ddMMyyyy-HHmmss") + "." + file.ContentType.Replace("image/", "");
@@ -278,7 +279,7 @@ namespace ChatBotWS.Controllers
             try
             {
                 //Get the object used to communicate with the server.
-                   FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://162.241.2.168/WEBSITES/chatboot.cabal.com.co/Images/" + imgid);
+                   FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://162.241.2.168/WEBSITES/chatboot.cabal.com.co/Images/Sended/" + imgid);
                 request.Method = WebRequestMethods.Ftp.UploadFile;
 
                 // This example assumes the FTP site uses anonymous logon.
@@ -319,9 +320,98 @@ namespace ChatBotWS.Controllers
                 requestimg.messaging_product = "whatsapp";
                 requestimg.to = number;
                 requestimg.type = "image";
-                requestimg.image = new Image { link = "http://www.chatbot.cabal.com.co/WEBSITES/chatboot.cabal.com.co/Images/" + imgid };
+                requestimg.image = new Image { link = "http://www.chatbot.cabal.com.co/WEBSITES/chatboot.cabal.com.co/Images/Sended/" + imgid };
 
                 string content = JsonConvert.SerializeObject(requestimg);
+                var body = new StringContent(content, Encoding.UTF8, "application/json");
+                var client = new HttpClient();
+                client.BaseAddress = new Uri(MyUrl);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+                var url = MyUrl + IdTel + "/messages";
+                var response = await client.PostAsync(url, body);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return BadRequest(response.ReasonPhrase);
+                }
+
+                var result = await response.Content.ReadAsStringAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [Route("api/[controller]/EnviarMensajeDoc")]
+        [EnableCors("AllowAny")]
+        [HttpPost]
+        public async Task<ActionResult> EnviarMensajeDoc([FromForm] IFormFile file, [FromForm] string number)
+        {
+
+            var docid = "";
+
+            if(file.ContentType == "application/pdf")
+            {
+                docid = number + "-" + DateTime.Now.ToString("ddMMyyyy-HHmmss") + ".pdf";
+            }
+            else
+            {
+                docid = number + "-" + DateTime.Now.ToString("ddMMyyyy-HHmmss") + ".docx";
+            }
+
+            try
+            {
+                //Get the object used to communicate with the server.
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://162.241.2.168/WEBSITES/chatboot.cabal.com.co/Documents/Sended/" + docid);
+                request.Method = WebRequestMethods.Ftp.UploadFile;
+
+                // This example assumes the FTP site uses anonymous logon.
+                request.Credentials = new NetworkCredential("chatwsp@chatbot.cabal.com.co", "ddne+}k=6gSF");
+
+                // Copy the contents of the file to the request stream.
+
+                using (Stream requestStream = await request.GetRequestStreamAsync())
+                {
+                    await file.CopyToAsync(requestStream);
+                    WebResponse ftpresponse = await request.GetResponseAsync();
+
+                }
+
+
+                Mensaje Newmsj = new Mensaje();
+                Newmsj.NumeroEmisor = number;
+                Newmsj.WaId = "my_id_wa";
+                Newmsj.NumeroReceptor = "8124282594";
+                Newmsj.Mensaje1 = "";
+                Newmsj.Respuesta = docid;
+                Newmsj.FechaHora = DateTime.Now;
+                Newmsj.Tipo = "document";
+
+
+                tstcontxt.Mensajes.Add(Newmsj);
+                tstcontxt.SaveChanges();
+
+
+
+                var MyUrl = "https://graph.facebook.com/v18.0/";
+                string Token = "EAANLmy5Lm2YBO1lLEwZB4vCwOuNfZCzPnW7gNXfWYXthTAJS5ZCeThOxuuLBXUw1XZCm83wr07bNsTh3skrTBpTDtOX9deLX9o9ZB16RCVvubD9wGjzTKZBljUhnbYomJZAKWHauCXwgs09Y7xvURtiJTijb6pGTNfD27VfN5vLZCGOiehwZALicl3oCTSM3Lrq5u";
+                string IdTel = "225714317301456";
+
+
+
+                EnviaDocumento requestdoc = new EnviaDocumento();
+                requestdoc.messaging_product = "whatsapp";
+                requestdoc.to = number;
+                requestdoc.type = "document";
+                requestdoc.document = new Document { 
+                    link = "http://www.chatbot.cabal.com.co/WEBSITES/chatboot.cabal.com.co/Documents/Sended/" + docid,
+                    filename = docid              
+                };
+
+                string content = JsonConvert.SerializeObject(requestdoc);
                 var body = new StringContent(content, Encoding.UTF8, "application/json");
                 var client = new HttpClient();
                 client.BaseAddress = new Uri(MyUrl);

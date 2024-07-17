@@ -130,15 +130,6 @@ namespace ChatBotWS.Controllers
                                         using (var s = await clientimg.GetStreamAsync(ImageUrl))
                                         {
 
-                                            //var blobClient = new BlobClient(
-                                            //     new Uri("https://navicol.file.core.windows.net/navicol/37i9dQZF1DZ06evO16ogSI-default(1).jpg"),
-                                            //     new StorageSharedKeyCredential("navicol", "ImSpjxBqP3P5Ka6qXlUz8/5oBka+kx/x+vOgm5k9eBot4OjyVG6WPsBEa8R5/WC6lsjeSltzqIQX+ASt/J8vbA==")
-                                            //    );
-
-                                            //var test = await blobClient.DownloadContentAsync();
-
-
-
                                             //EXTRAEMOS EL ID UNICO DEL MENSAJE
                                             if (!String.IsNullOrEmpty(entry.entry[0].changes[0].value.messages[0].id))
                                                 id_wa = entry.entry[0].changes[0].value.messages[0].id;
@@ -163,27 +154,33 @@ namespace ChatBotWS.Controllers
                                             tstcontxt.Mensajes.Add(Newmsj);
                                             var resSave = await tstcontxt.SaveChangesAsync();
 
+                                            //var blobServiceClient = new BlobServiceClient(
+                                            //new Uri("https://navicol.blob.core.windows.net"),
+                                            //new StorageSharedKeyCredential("navicol",
+                                            //"7GfdRduKrEz3nHU+zdqu/61Mgw6XMiB8Y6XQXnml7bCe+f9B4PCGro/miM0Q1xrs1mPMex89JBZR+AStOrD9Pw==")
+                                            //);
 
+                                            //var containerClient = blobServiceClient.GetBlobContainerClient("wsimages");
+                                            //var blobClient = containerClient.GetBlobClient(imgid + ".jpg");
+                                            //var resUpl = await blobClient.UploadAsync(s, overwrite: true);
 
-                                            var blobServiceClient = new BlobServiceClient(
-                                            new Uri("https://navicol.blob.core.windows.net"),
-                                            new StorageSharedKeyCredential("navicol",
-                                            "7GfdRduKrEz3nHU+zdqu/61Mgw6XMiB8Y6XQXnml7bCe+f9B4PCGro/miM0Q1xrs1mPMex89JBZR+AStOrD9Pw==")
-                                            );
+                                            //----------------------------------------------------------------
+                                            //Get the object used to communicate with the server.
+                                            FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://162.241.2.168/WEBSITES/chatboot.cabal.com.co/Images/Received/" + imgid +".jpg");
+                                            request.Method = WebRequestMethods.Ftp.UploadFile;
 
-                                            var containerClient = blobServiceClient.GetBlobContainerClient("wsimages");
-                                            var blobClient = containerClient.GetBlobClient(imgid + ".jpg");
-                                            var resUpl = await blobClient.UploadAsync(s, overwrite: true);
+                                            // This example assumes the FTP site uses anonymous logon.
+                                            request.Credentials = new NetworkCredential("chatwsp@chatbot.cabal.com.co", "ddne+}k=6gSF");
 
+                                            // Copy the contents of the file to the request stream.
 
-                                            //File.WriteAllText("C:/Users/vicoc/source/repos/ChatBotWS/Images/test.txt", "Test");
-
-                                            using (FileStream outputFileStream = new FileStream("c:/" + FileName, FileMode.CreateNew))
+                                            using (Stream requestStream = await request.GetRequestStreamAsync())
                                             {
-                                                await s.CopyToAsync(outputFileStream);
-
+                                                await s.CopyToAsync(requestStream);
+                                                WebResponse ftpresponse = await request.GetResponseAsync();
 
                                             }
+
                                         }
                                     }
 
