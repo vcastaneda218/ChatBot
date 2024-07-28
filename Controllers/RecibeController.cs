@@ -120,7 +120,7 @@ namespace ChatBotWS.Controllers
                                 {
                                     var ImgResponse = JsonConvert.DeserializeObject<GetImageInfo>(JSON);
                                     var ImageUrl = ImgResponse.url;
-                                    var FileName = AppDomain.CurrentDomain.BaseDirectory + "/Images/" + imgid + ".jpg";
+                                    var FileName = AppDomain.CurrentDomain.BaseDirectory + "/Images/Received/" + imgid + ".jpg";
                                    
 
                                     using (HttpClient clientimg = new HttpClient())
@@ -192,8 +192,103 @@ namespace ChatBotWS.Controllers
                                 
                             }
                         }
-                    
-                        return new HttpResponseMessage(HttpStatusCode.NoContent);
+
+                        if (entry.entry[0].changes[0].value.messages[0].type == "document")
+                        {
+
+                            using (HttpClient client = new HttpClient())
+                            {
+                                var documentid = entry.entry[0].changes[0].value.messages[0].document.id;
+
+                                //if ( == "application/pdf")
+                                //{
+                                //   documentid = entry.entry[0].changes[0].value.messages[0].document.id + ".pdf"
+                                //}
+                                //else
+                                //{
+                                //    documentid = entry.entry[0].changes[0].value.messages[0].document.id + ".docx"
+                                //}
+                                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "EAANLmy5Lm2YBO1lLEwZB4vCwOuNfZCzPnW7gNXfWYXthTAJS5ZCeThOxuuLBXUw1XZCm83wr07bNsTh3skrTBpTDtOX9deLX9o9ZB16RCVvubD9wGjzTKZBljUhnbYomJZAKWHauCXwgs09Y7xvURtiJTijb6pGTNfD27VfN5vLZCGOiehwZALicl3oCTSM3Lrq5u");
+                                var JSON = await client.GetStringAsync("https://graph.facebook.com/v18.0/" + documentid);
+
+                                if (!string.IsNullOrEmpty(JSON))
+                                {
+                                    var DocResponse = JsonConvert.DeserializeObject<GetImageInfo>(JSON);
+                                    var DocUrl = DocResponse.url;
+                                    //var FileName = documentid = entry.entry[0].changes[0].value.messages[0].document.filename;
+                                    var filename = documentid + entry.entry[0].changes[0].value.messages[0].document.filename;
+
+                                    using (HttpClient clientdoc = new HttpClient())
+                                    {
+                                        clientdoc.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "EAANLmy5Lm2YBO1lLEwZB4vCwOuNfZCzPnW7gNXfWYXthTAJS5ZCeThOxuuLBXUw1XZCm83wr07bNsTh3skrTBpTDtOX9deLX9o9ZB16RCVvubD9wGjzTKZBljUhnbYomJZAKWHauCXwgs09Y7xvURtiJTijb6pGTNfD27VfN5vLZCGOiehwZALicl3oCTSM3Lrq5u");
+                                        clientdoc.DefaultRequestHeaders.Add("User-Agent", "curl/7.64.1");
+                                        using (var s = await clientdoc.GetStreamAsync(DocUrl))
+                                        {
+
+                                            //EXTRAEMOS EL ID UNICO DEL MENSAJE
+                                            if (!String.IsNullOrEmpty(entry.entry[0].changes[0].value.messages[0].id))
+                                                id_wa = entry.entry[0].changes[0].value.messages[0].id;
+
+                                            //ESTRAEMOS EL NUMERO DE TELEFONO DEL CUAL RECIBIMOS EL MENSAJE
+                                            if (!String.IsNullOrEmpty(entry.entry[0].changes[0].value.messages[0].from))
+                                                telefono_wa = entry.entry[0].changes[0].value.messages[0].from;
+
+                                            if (!String.IsNullOrEmpty(entry.entry[0].changes[0].value.messages[0].type))
+                                            {
+                                                tipo = entry.entry[0].changes[0].value.messages[0].type;
+                                            }
+
+                                            Newmsj.NumeroEmisor = telefono_wa;
+                                            Newmsj.WaId = id_wa;
+                                            Newmsj.NumeroReceptor = "8124282594";
+                                            Newmsj.Mensaje1 = filename;
+                                            Newmsj.Respuesta = "";
+                                            Newmsj.FechaHora = DateTime.Now;
+                                            Newmsj.Tipo = tipo;
+
+                                            tstcontxt.Mensajes.Add(Newmsj);
+                                            var resSave = await tstcontxt.SaveChangesAsync();
+
+                                            //var blobServiceClient = new BlobServiceClient(
+                                            //new Uri("https://navicol.blob.core.windows.net"),
+                                            //new StorageSharedKeyCredential("navicol",
+                                            //"7GfdRduKrEz3nHU+zdqu/61Mgw6XMiB8Y6XQXnml7bCe+f9B4PCGro/miM0Q1xrs1mPMex89JBZR+AStOrD9Pw==")
+                                            //);
+
+                                            //var containerClient = blobServiceClient.GetBlobContainerClient("wsimages");
+                                            //var blobClient = containerClient.GetBlobClient(imgid + ".jpg");
+                                            //var resUpl = await blobClient.UploadAsync(s, overwrite: true);
+
+                                            //----------------------------------------------------------------
+                                            //Get the object used to communicate with the server.
+                                            FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://162.241.2.168/WEBSITES/chatboot.cabal.com.co/Documents/Received/" + filename );
+                                            request.Method = WebRequestMethods.Ftp.UploadFile;
+
+                                            // This example assumes the FTP site uses anonymous logon.
+                                            request.Credentials = new NetworkCredential("chatwsp@chatbot.cabal.com.co", "ddne+}k=6gSF");
+
+                                            // Copy the contents of the file to the request stream.
+
+                                            using (Stream requestStream = await request.GetRequestStreamAsync())
+                                            {
+                                                await s.CopyToAsync(requestStream);
+                                                WebResponse ftpresponse = await request.GetResponseAsync();
+
+                                            }
+
+                                        }
+                                    }
+
+                                }
+                                else
+                                {
+
+                                }
+
+                            }
+                        }
+
+                            return new HttpResponseMessage(HttpStatusCode.NoContent);
                     }
 
                     //EXTRAEMOS EL ID UNICO DEL MENSAJE

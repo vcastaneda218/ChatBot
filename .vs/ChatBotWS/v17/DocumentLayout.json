@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\vicoc\\source\\repos\\ChatBot\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{78B96811-EFCF-42DC-B744-7A5A3E83A19B}|ChatBotWS.csproj|c:\\users\\vicoc\\source\\repos\\chatbot\\controllers\\contactoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{78B96811-EFCF-42DC-B744-7A5A3E83A19B}|ChatBotWS.csproj|solutionrelative:controllers\\contactoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{78B96811-EFCF-42DC-B744-7A5A3E83A19B}|ChatBotWS.csproj|c:\\users\\vicoc\\source\\repos\\chatbot\\controllers\\whatsappadmincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{78B96811-EFCF-42DC-B744-7A5A3E83A19B}|ChatBotWS.csproj|solutionrelative:controllers\\whatsappadmincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -13,10 +17,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{78B96811-EFCF-42DC-B744-7A5A3E83A19B}|ChatBotWS.csproj|c:\\users\\vicoc\\source\\repos\\chatbot\\models\\datos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{78B96811-EFCF-42DC-B744-7A5A3E83A19B}|ChatBotWS.csproj|solutionrelative:models\\datos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{78B96811-EFCF-42DC-B744-7A5A3E83A19B}|ChatBotWS.csproj|c:\\users\\vicoc\\source\\repos\\chatbot\\models\\enviadocumento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{78B96811-EFCF-42DC-B744-7A5A3E83A19B}|ChatBotWS.csproj|solutionrelative:models\\enviadocumento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,58 +26,57 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "EnviaDocumento.cs",
-              "DocumentMoniker": "C:\\Users\\vicoc\\source\\repos\\ChatBot\\Models\\EnviaDocumento.cs",
-              "RelativeDocumentMoniker": "Models\\EnviaDocumento.cs",
-              "ToolTip": "C:\\Users\\vicoc\\source\\repos\\ChatBot\\Models\\EnviaDocumento.cs",
-              "RelativeToolTip": "Models\\EnviaDocumento.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAABIAAAAAAAAA",
+              "DocumentIndex": 0,
+              "Title": "ContactosController.cs",
+              "DocumentMoniker": "C:\\Users\\vicoc\\source\\repos\\ChatBot\\Controllers\\ContactosController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ContactosController.cs",
+              "ToolTip": "C:\\Users\\vicoc\\source\\repos\\ChatBot\\Controllers\\ContactosController.cs",
+              "RelativeToolTip": "Controllers\\ContactosController.cs",
+              "ViewState": "AQIAABwAAAAAAAAAAAAAAEoAAAAaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-13T23:06:42.252Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Datos.cs",
-              "DocumentMoniker": "C:\\Users\\vicoc\\source\\repos\\ChatBot\\Models\\Datos.cs",
-              "RelativeDocumentMoniker": "Models\\Datos.cs",
-              "ToolTip": "C:\\Users\\vicoc\\source\\repos\\ChatBot\\Models\\Datos.cs",
-              "RelativeToolTip": "Models\\Datos.cs",
-              "ViewState": "AQIAACQAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-13T22:28:12.529Z",
+              "WhenOpened": "2024-07-28T19:47:22.844Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "RecibeController.cs",
-              "DocumentMoniker": "C:\\Users\\vicoc\\source\\repos\\ChatBot\\Controllers\\RecibeController.cs",
-              "RelativeDocumentMoniker": "Controllers\\RecibeController.cs",
-              "ToolTip": "C:\\Users\\vicoc\\source\\repos\\ChatBot\\Controllers\\RecibeController.cs",
-              "RelativeToolTip": "Controllers\\RecibeController.cs",
-              "ViewState": "AQIAAMQAAAAAAAAAAAAAAAgBAAARAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-07T13:56:01.647Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
               "Title": "WhatsAppAdminController.cs",
               "DocumentMoniker": "C:\\Users\\vicoc\\source\\repos\\ChatBot\\Controllers\\WhatsAppAdminController.cs",
               "RelativeDocumentMoniker": "Controllers\\WhatsAppAdminController.cs",
               "ToolTip": "C:\\Users\\vicoc\\source\\repos\\ChatBot\\Controllers\\WhatsAppAdminController.cs",
               "RelativeToolTip": "Controllers\\WhatsAppAdminController.cs",
-              "ViewState": "AQIAAKYBAAAAAAAAAIAwwLIBAAAIAAAA",
+              "ViewState": "AQIAALgBAAAAAAAAAAAAAMoBAAAWAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-07T13:55:50.537Z",
+              "WhenOpened": "2024-07-17T23:37:25.938Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Datos.cs",
+              "DocumentMoniker": "C:\\Users\\vicoc\\source\\repos\\ChatBot\\Models\\Datos.cs",
+              "RelativeDocumentMoniker": "Models\\Datos.cs",
+              "ToolTip": "C:\\Users\\vicoc\\source\\repos\\ChatBot\\Models\\Datos.cs",
+              "RelativeToolTip": "Models\\Datos.cs",
+              "ViewState": "AQIAACsAAAAAAAAAAAAAADQAAAAmAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-18T05:28:35.483Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RecibeController.cs",
+              "DocumentMoniker": "C:\\Users\\vicoc\\source\\repos\\ChatBot\\Controllers\\RecibeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\RecibeController.cs",
+              "ToolTip": "C:\\Users\\vicoc\\source\\repos\\ChatBot\\Controllers\\RecibeController.cs",
+              "RelativeToolTip": "Controllers\\RecibeController.cs",
+              "ViewState": "AQIAAMAAAAAAAAAAAAAAABEBAABPAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-07T13:56:01.647Z",
               "EditorCaption": ""
             }
           ]

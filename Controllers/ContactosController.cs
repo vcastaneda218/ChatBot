@@ -46,22 +46,27 @@ namespace ChatBotWS.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [EnableCors("AllowAny")]
-        public async Task<IActionResult> PutContacto(int id, Contacto contacto)
+        public async Task<IActionResult> PutContacto(int id,Contacto contacto)
         {
-            if (id != contacto.ContactoId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(contacto).State = EntityState.Modified;
 
             try
             {
+                var contact = await _context.Contactos.FindAsync(id);
+                if (contact == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Entry(contact).State = EntityState.Modified;
+                contact.Nombre = contacto.Nombre;
+                contact.Etiqueta = contacto.Etiqueta;
+                contact.Favorito = contacto.Favorito;
+
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ContactoExists(id))
+                if (!ContactoExists(contacto.ContactoId))
                 {
                     return NotFound();
                 }
@@ -105,7 +110,7 @@ namespace ChatBotWS.Controllers
 
         private bool ContactoExists(int id)
         {
-            return _context.Contactos.Any(e => e.ContactoId == id);
+            return _context.Contactos.Any(e => e.ContactoId == id && e.Activo == 1);
         }
     }
 }

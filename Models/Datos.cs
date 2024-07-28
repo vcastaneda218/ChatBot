@@ -33,6 +33,7 @@
         public string type { get; set; }
         public TextRecibe text { get; set; }
         public ImgRecibe image { get; set; }
+        public DocumentRecibe document { get; set; }
     }
 
     public class ImgRecibe
@@ -45,6 +46,12 @@
     public class TextRecibe
     {
         public string body { get; set; }
+    }
+
+    public class DocumentRecibe
+    {
+        public string id { get; set; }
+        public string filename { get; set; }
     }
 
 }
