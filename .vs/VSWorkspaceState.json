@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Controllers"
   ],
-  "SelectedNode": "\\ChatBotWS.sln",
+  "SelectedNode": "\\Controllers\\ContactosController.cs",
   "PreviewInSolutionExplorer": false
 }

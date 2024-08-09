@@ -36,7 +36,7 @@
               "RelativeDocumentMoniker": "Controllers\\ContactosController.cs",
               "ToolTip": "C:\\Users\\vicoc\\source\\repos\\ChatBot\\Controllers\\ContactosController.cs",
               "RelativeToolTip": "Controllers\\ContactosController.cs",
-              "ViewState": "AQIAABwAAAAAAAAAAAAAAEoAAAAaAAAA",
+              "ViewState": "AQIAABwAAAAAAAAAAAAAAC8AAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-28T19:47:22.844Z",
               "EditorCaption": ""
@@ -51,8 +51,7 @@
               "RelativeToolTip": "Controllers\\WhatsAppAdminController.cs",
               "ViewState": "AQIAALgBAAAAAAAAAAAAAMoBAAAWAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-17T23:37:25.938Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-17T23:37:25.938Z"
             },
             {
               "$type": "Document",
@@ -76,8 +75,7 @@
               "RelativeToolTip": "Controllers\\RecibeController.cs",
               "ViewState": "AQIAAMAAAAAAAAAAAAAAABEBAABPAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-07T13:56:01.647Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-07T13:56:01.647Z"
             }
           ]
         }
