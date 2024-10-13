@@ -465,19 +465,19 @@ namespace ChatBotWS.Controllers
         //public async Task<ActionResult> Test(IFormFile file)
         //{
         //    // Get the object used to communicate with the server.
-        //    FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://162.241.2.168/WEBSITES/chatboot.cabal.com.co/Images/"); 
+        //    FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://216.225.195.85/Images/");
         //    request.Method = WebRequestMethods.Ftp.UploadFile;
 
         //    // This example assumes the FTP site uses anonymous logon.
-        //    request.Credentials = new NetworkCredential("chatwsp@chatbot.cabal.com.co", "ddne+}k=6gSF");
+        //    request.Credentials = new NetworkCredential("mctechnologies.onlin_caf26q6m0gd", "Hugoca13@");
 
         //    // Copy the contents of the file to the request stream.
-     
+
         //    using (Stream requestStream = await request.GetRequestStreamAsync())
         //    {
         //        await file.CopyToAsync(requestStream);
         //        WebResponse ftpresponse = await request.GetResponseAsync();
-                
+
         //    }
 
         //    return Ok();

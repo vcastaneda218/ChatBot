@@ -96,6 +96,7 @@ namespace ChatBotWS.Controllers
         [EnableCors("AllowAny")]
         public async Task<IActionResult> DeleteContacto(int id)
         {
+
             var contacto = await _context.Contactos.FindAsync(id);
             if (contacto == null)
             {
