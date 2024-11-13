@@ -20,13 +20,17 @@ namespace ChatBotWS.Controllers
 {
     public class RecibeController
     {
-        TestContext tstcontxt = new TestContext();
-        EnviaController enviacontrol = new EnviaController();
+        public RecibeController()
+        {
+            TestContext TestContext = new TestContext();
+            EnviaController EnviaController = new EnviaController(null);
+        }
 
+        
         //RECIBIMOS LOS DATOS DE VALIDACION VIA GET
         [HttpGet]
         //DENTRO DE LA RUTA webhook
-        [Route("webhook")]
+        [Route("Webhook")]
         //RECIBIMOS LOS PARAMETROS QUE NOS ENVIA WHATSAPP PARA VALIDAR NUESTRA URL
 
         public string Webhook(
@@ -54,7 +58,7 @@ namespace ChatBotWS.Controllers
         public async Task<dynamic> datos([FromBody] WebHookResponseModel entry)
         {
             //OBTENEMOS EL MENSAJE RECIBIDO
-            string mensaje_recibido = "";
+            string Mensaje_recibido = "";
             string id_wa = "";
             string telefono_wa = "";
             string respuesta = "";
@@ -151,8 +155,8 @@ namespace ChatBotWS.Controllers
                                             Newmsj.FechaHora = DateTime.Now;
                                             Newmsj.Tipo = tipo;
 
-                                            tstcontxt.Mensajes.Add(Newmsj);
-                                            var resSave = await tstcontxt.SaveChangesAsync();
+                                            TestContext.Mensajes.Add(Newmsj);
+                                            var resSave = await TestContext.SaveChangesAsync();
 
                                             //var blobServiceClient = new BlobServiceClient(
                                             //new Uri("https://navicol.blob.core.windows.net"),
@@ -246,8 +250,8 @@ namespace ChatBotWS.Controllers
                                             Newmsj.FechaHora = DateTime.Now;
                                             Newmsj.Tipo = tipo;
 
-                                            tstcontxt.Mensajes.Add(Newmsj);
-                                            var resSave = await tstcontxt.SaveChangesAsync();
+                                            TestContext.Mensajes.Add(Newmsj);
+                                            var resSave = await TestContext.SaveChangesAsync();
 
                                             //var blobServiceClient = new BlobServiceClient(
                                             //new Uri("https://navicol.blob.core.windows.net"),
@@ -321,7 +325,7 @@ namespace ChatBotWS.Controllers
                     Newmsj.FechaHora = DateTime.Now;
                     Newmsj.Tipo = tipo;
 
-                    var contact = tstcontxt.Contactos.FirstOrDefaultAsync(x => x.Numero == telefono_wa).Result;
+                    var contact = TestContext.Contactos.FirstOrDefaultAsync(x => x.Numero == telefono_wa).Result;
 
                     if (contact != null)
                     {
@@ -340,18 +344,18 @@ namespace ChatBotWS.Controllers
                         Newmsj.Respuesta = respuesta;
                     }
 
-                    tstcontxt.Mensajes.Add(Newmsj);
-                    tstcontxt.SaveChanges();
+                    TestContext.Mensajes.Add(Newmsj);
+                    TestContext.SaveChanges();
                     if (contact != null)
                     {
                         if (contact.Chatbot == 1)
                         {
-                            await enviacontrol.Envia(telefono_wa, respuesta);
+                            await EnviaController.Envia(telefono_wa, respuesta);
                         }
                     }
                     else
                     {
-                        await enviacontrol.Envia(telefono_wa, respuesta);
+                        await EnviaController.Envia(telefono_wa, respuesta);
                     }
 
                     var response = new HttpResponseMessage(HttpStatusCode.OK);

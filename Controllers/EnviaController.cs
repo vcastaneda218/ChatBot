@@ -9,40 +9,51 @@ namespace ChatBotWS.Controllers
 {
     public class EnviaController : Controller
     {
+
+        private readonly string Token;
+        private readonly string MyUrl;
+        private readonly string IdPhone;
+
+        public EnviaController(IConfiguration Config)
+        {
+            Token = Config.GetValue("GrandParent_Key:Parent_Key", "1");
+            MyUrl = Config.GetValue("GrandParent_Key:Parent_Key", "2");
+            IdPhone = Config.GetValue("GrandParent_Key:Parent_Key", "3");
+        }
+
         [HttpGet]
         [Route("Envia")]
         [EnableCors("AllowAny")]
-        public async Task<string?> Envia(string telefono,string resp)
+        public async Task<string?> Envia(string PhoneNumber, string Resp)
         {
 
             try
             {
-                var MyUrl = "https://graph.facebook.com/v18.0/";
-                string Token = "EAANLmy5Lm2YBO1lLEwZB4vCwOuNfZCzPnW7gNXfWYXthTAJS5ZCeThOxuuLBXUw1XZCm83wr07bNsTh3skrTBpTDtOX9deLX9o9ZB16RCVvubD9wGjzTKZBljUhnbYomJZAKWHauCXwgs09Y7xvURtiJTijb6pGTNfD27VfN5vLZCGOiehwZALicl3oCTSM3Lrq5u";
-                string IdTel = "225714317301456";
-                string Telefono = telefono;
 
+                string IdTel = IdPhone;
+                string Telefono = PhoneNumber;
 
-                Envia request = new Envia();
-                request.messaging_product = "whatsapp";
-                request.to = telefono;
-                request.type = "text";
-                request.text = new Text { body = resp };
+                Envia Request = new Envia();
+                Request.messaging_product = "whatsapp";
+                Request.to = PhoneNumber;
+                Request.type = "text";
+                Request.text = new Text { body = Resp };
 
-                string content = JsonConvert.SerializeObject(request);
-                var body = new StringContent(content, Encoding.UTF8, "application/json");
-                var client = new HttpClient();
-                client.BaseAddress = new Uri(MyUrl);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
-                var url = MyUrl + IdTel + "/messages";
-                var response = await client.PostAsync(url, body);
-                if (!response.IsSuccessStatusCode)
+                string Content = JsonConvert.SerializeObject(Request);
+                var Body = new StringContent(Content, Encoding.UTF8, "application/json");
+                var Client = new HttpClient();
+                Client.BaseAddress = new Uri(MyUrl);
+                Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+                var Url = MyUrl + IdTel + "/messages";
+                var Response = await Client.PostAsync(Url, Body);
+                if (!Response.IsSuccessStatusCode)
                 {
                     return null;
                 }
 
-                var result = await response.Content.ReadAsStringAsync();
-                return result;
+                var Result = await Response.Content.ReadAsStringAsync();
+
+                return Result;
             }
             catch
             {
